@@ -5,9 +5,8 @@ using UnityEngine;
 public class BulletColision : MonoBehaviour{
 
     void OnCollisionEnter(Collision collision){
-        Debug.Log("Colision");  
         if(collision.gameObject.tag == "Enemy"){
-            Destroy(collision.gameObject);
+            collision.gameObject.GetComponent<EnemyDeathManager>().UnAlive();
         }
         gameObject.SetActive(false);
     }
