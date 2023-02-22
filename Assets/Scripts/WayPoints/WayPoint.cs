@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class WayPoint : MonoBehaviour{
-    [SerializeField] bool IsFinish;
+    public bool IsFinish;
     public bool IsClear{private set; get;}
 
     int _enemyCount;
