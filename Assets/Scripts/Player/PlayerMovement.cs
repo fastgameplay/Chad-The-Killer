@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.AI;
 [RequireComponent(typeof(NavMeshAgent))]
-
+[RequireComponent(typeof(PlayerAttack))]
 public class PlayerMovement : MonoBehaviour
 {
     public float CurrentSpeed{get { return _agent.velocity.magnitude;}}
@@ -9,9 +9,12 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] WayPoint[] _wayPoints;
     
     NavMeshAgent _agent;
+    GameManager _gManager;
     int _nextPointID;
     bool _isStart;
     void Awake(){
+        GetComponent<PlayerAttack>().enabled = false;
+        _gManager = FindObjectOfType<GameManager>();
         _agent = GetComponent<NavMeshAgent>();
         _nextPointID = 0;
         _isStart = true;
@@ -23,8 +26,8 @@ public class PlayerMovement : MonoBehaviour
                 _agent.SetDestination(_wayPoints[_nextPointID].transform.position);
                 _nextPointID++;
                 _isStart = false;
-                //activate attack;
-                //deactivate tap panel;
+                GetComponent<PlayerAttack>().enabled = true;
+                _gManager.StartPanel = false;
             }
         }
         else{
@@ -45,7 +48,8 @@ public class PlayerMovement : MonoBehaviour
             _nextPointID++;
             return;
         }
-        Debug.Log("Win");
-        //win logic(panel active, restart scene)
+        GetComponent<PlayerAttack>().enabled = false;
+        _gManager.Win();
+        this.enabled = false;
     }
 }
